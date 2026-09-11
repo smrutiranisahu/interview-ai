@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [authError, setAuthError] = useState("")
 
     useEffect(() => {
         getMe()
@@ -17,11 +18,13 @@ export const AuthProvider = ({ children }) => {
 
     const handleLogin = async ({ email, password }) => {
         setLoading(true)
+        setAuthError("")
         try {
             const data = await login({ email, password })
             setUser(data.user)
         } catch (err) {
             console.error(err)
+            setAuthError(err.response?.data?.message || "Unable to log in")
             return false
         } finally {
             setLoading(false)
@@ -55,7 +58,7 @@ export const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{ user, loading, handleLogin, handleRegister, handleLogout }} >
+        <AuthContext.Provider value={{ user, loading, authError, handleLogin, handleRegister, handleLogout }} >
             {children}
         </AuthContext.Provider>
     )
