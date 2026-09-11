@@ -33,7 +33,10 @@ app.use((err, req, res, next) => {
         return res.status(400).json({ message: "Resume must be a PDF or DOCX file" })
     }
 
-    next(err)
+    console.error(err)
+    res.status(err.status || err.statusCode || 500).json({
+        message: process.env.NODE_ENV === "production" ? "Interview generation failed" : err.message
+    })
 })
 
 
