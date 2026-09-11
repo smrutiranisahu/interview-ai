@@ -26,7 +26,7 @@ export const useInterview = () => {
             if (error.response?.status === 401) {
                 window.location.assign("/login")
             }
-            return null
+            throw error
         } finally {
             setLoading(false)
         }

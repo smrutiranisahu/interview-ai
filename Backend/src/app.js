@@ -35,7 +35,9 @@ app.use((err, req, res, next) => {
 
     console.error(err)
     res.status(err.status || err.statusCode || 500).json({
-        message: process.env.NODE_ENV === "production" ? "Interview generation failed" : err.message
+        message: process.env.NODE_ENV === "production"
+            ? (err.error?.message || err.message || "Interview generation failed")
+            : err.message
     })
 })
 

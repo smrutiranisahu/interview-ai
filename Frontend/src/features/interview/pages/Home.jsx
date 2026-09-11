@@ -22,11 +22,11 @@ const Home = () => {
             return
         }
 
-        const data = await generateReport({ jobDescription, selfDescription, resumeFile })
-        if (data) {
+        try {
+            const data = await generateReport({ jobDescription, selfDescription, resumeFile })
             navigate(`/interview/${data._id}`)
-        } else {
-            setError("Unable to generate the interview plan. Check the backend and try again.")
+        } catch (error) {
+            setError(error.response?.data?.message || "Unable to generate the interview plan. Check the backend and try again.")
         }
     }
 
