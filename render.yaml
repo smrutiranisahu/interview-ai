@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: interview-ai-backend
+    env: node
+    rootDir: Backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: GOOGLE_GENAI_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        value: https://frontend-sand-two-c34v28ozea.vercel.app
