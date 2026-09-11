@@ -3,10 +3,12 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const tokenBlacklistModel = require("../models/blacklist.model")
 
+const isProduction = Boolean(process.env.FRONTEND_URL && !process.env.FRONTEND_URL.includes("localhost"))
+
 const authCookieOptions = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax"
 }
 
 /**
