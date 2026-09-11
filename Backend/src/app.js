@@ -34,10 +34,13 @@ app.use((err, req, res, next) => {
     }
 
     console.error(err)
+    const providerMessage = err.error?.message || err.message || "Interview generation failed"
+    const message = providerMessage.includes("API key not valid")
+        ? "The AI service is not configured. Add a valid GOOGLE_GENAI_API_KEY in Render."
+        : providerMessage
+
     res.status(err.status || err.statusCode || 500).json({
-        message: process.env.NODE_ENV === "production"
-            ? (err.error?.message || err.message || "Interview generation failed")
-            : err.message
+        message: process.env.NODE_ENV === "production" ? message : err.message
     })
 })
 
